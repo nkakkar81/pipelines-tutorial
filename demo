@@ -107,6 +107,21 @@ demo.logs() {
   TKN pipeline logs petclinic-deploy-pipeline --last -f
 }
 
+demo.setup-triggers() {
+  sed -e "s|pipelines-tutorial|$NAMESPACE|g" triggers/secret/01_webhook-secret.yaml | OC apply -f -
+  sed -e "s|pipelines-tutorial|$NAMESPACE|g" triggers/01_admin-user.yaml | OC apply -f -
+  sed -e "s|pipelines-tutorial|$NAMESPACE|g" triggers/02_create-webhook-user.yaml | OC apply -f -
+  sed -e "s|pipelines-tutorial|$NAMESPACE|g" triggers/11_trigger-template.yaml | OC apply -f -
+  sed -e "s|pipelines-tutorial|$NAMESPACE|g" triggers/12_trigger-binding.yaml | OC apply -f -
+  sed -e "s|pipelines-tutorial|$NAMESPACE|g" triggers/13_event-listener.yaml | OC apply -f -
+  sed -e "s|pipelines-tutorial|$NAMESPACE|g" triggers/14_create-webhook-task.yaml | OC apply -f -
+
+  echo :::::::::: Services ::::::::::
+  oc expose svc el-petclinic-listener --name webhook-url
+  echo ::::::::::::::::::::::::::::::
+  echo "URL: $(oc get routes  webhook-url -o json | jq '.spec.host')"
+}
+
 demo.run() {
   TKN pipeline start petclinic-deploy-pipeline \
     -r app-git=petclinic-git \
