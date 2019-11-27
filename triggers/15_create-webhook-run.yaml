@@ -1,0 +1,26 @@
+apiVersion: tekton.dev/v1alpha1
+kind: TaskRun
+metadata:
+  name: create-webhook-run
+  namespace: pipelines-tutorial
+spec:
+  taskRef:
+    name: create-webhook
+  inputs:
+    params:
+    - name: GitHubOrg
+      value: "nikhil-thomas"
+    - name: GitHubUser
+      value: "nikhil-thomas"
+    - name: GitHubRepo
+      value: "spring-petclinic"
+    - name: GitHubSecretName
+      value: webhook-secret
+    - name: GitHubAccessTokenKey
+      value: token
+    - name: GitHubSecretStringKey
+      value: secret
+    - name: ExternalDomain
+      value: http://el-petclinic-listener-pipelines-tutorial.apps.nikhil42.devcluster.openshift.com
+  timeout: 1000s
+  serviceAccount: tekton-triggers-createwebhook

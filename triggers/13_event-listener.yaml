@@ -1,0 +1,11 @@
+apiVersion: tekton.dev/v1alpha1
+kind: EventListener
+metadata:
+  name: petclinic-listener
+spec:
+  serviceAccountName: tekton-triggers-admin
+  triggers:
+  - binding:
+      name: petclinic-pipelinebinding
+    template:
+      name: petclinic-triggertemplate

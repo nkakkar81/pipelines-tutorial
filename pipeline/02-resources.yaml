@@ -17,4 +17,4 @@ spec:
   type: git
   params:
   - name: url
-    value: https://github.com/spring-projects/spring-petclinic
+    value: https://github.com/nikhil-thomas/spring-petclinic
